@@ -2,7 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { CarInfo as CarInfoType } from '../utils/carData';
-import { Gauge, Engine, Zap, Timer, MapPin, Phone, Globe } from 'lucide-react';
+import { Gauge, Car, Zap, Timer, MapPin, Phone, Globe } from 'lucide-react';
 
 interface CarInfoProps {
   car: CarInfoType;
@@ -52,7 +52,7 @@ const CarInfo: React.FC<CarInfoProps> = ({ car }) => {
           <div className="space-y-4">
             <div className="flex items-start">
               <div className="w-8 h-8 bg-jdm-red/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                <Engine size={16} className="text-jdm-red" />
+                <Car size={16} className="text-jdm-red" />
               </div>
               <div>
                 <p className="text-sm font-medium">Engine</p>
