@@ -1,3 +1,4 @@
+
 import { env, pipeline } from '@huggingface/transformers';
 import { CarInfo } from '../types/car';
 import { carDatabase } from '../data/carDatabase';
@@ -7,15 +8,11 @@ import { modelClassToCarMap } from './carModelMapping';
 env.allowLocalModels = false;
 env.useBrowserCache = true;
 
-// The Imagga API key (this is a publishable key that would normally be in your environment variables)
-const IMAGGA_API_KEY = 'acc_4e14f21a5011ef3';
-const IMAGGA_API_SECRET = '5b9a1ec15a7337570b09050b2eaecc62';
-
 // Find a matching car based on keywords in the label
 const findMatchingCar = (label: string): string | null => {
   // Check direct mappings first
   for (const [key, carId] of Object.entries(modelClassToCarMap)) {
-    if (label.includes(key)) {
+    if (label.toLowerCase().includes(key.toLowerCase())) {
       return carId;
     }
   }
@@ -25,7 +22,7 @@ const findMatchingCar = (label: string): string | null => {
     const carName = car.name.toLowerCase();
     const manufacturer = car.manufacturer.toLowerCase();
     
-    if (label.includes(carName) || label.includes(manufacturer)) {
+    if (label.toLowerCase().includes(carName) || label.toLowerCase().includes(manufacturer)) {
       return car.id;
     }
   }
@@ -74,98 +71,112 @@ const fallbackIdentification = (): CarInfo => {
   return carDatabase[randomIndex];
 };
 
-// Try to identify car using Imagga's API
-const identifyWithImaggaApi = async (base64Image: string): Promise<CarInfo | null> => {
+// Identify car using AICoolHub API
+const identifyWithAICoolHub = async (base64Image: string): Promise<CarInfo | null> => {
   try {
-    console.log("Attempting to identify car with Imagga API...");
+    console.log("Attempting to identify car with AICoolHub API...");
     
     // Remove the data URL prefix to get just the base64 content
     const base64Data = base64Image.replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
     
     // Create the API request
-    const apiUrl = 'https://api.imagga.com/v2/tags';
-    const authHeader = 'Basic ' + btoa(IMAGGA_API_KEY + ':' + IMAGGA_API_SECRET);
+    const apiUrl = 'https://aicoolhub.com/api/v1/car-identifier';
     
     const formData = new FormData();
     const blob = await (await fetch(`data:image/jpeg;base64,${base64Data}`)).blob();
     formData.append('image', blob);
     
-    // Call the Imagga API
+    // Call the AICoolHub API
     const response = await fetch(apiUrl, {
       method: 'POST',
-      headers: {
-        'Authorization': authHeader
-      },
       body: formData
     });
     
     if (!response.ok) {
-      console.error("Imagga API error:", response.statusText);
+      console.error("AICoolHub API error:", response.statusText);
       return null;
     }
     
     const data = await response.json();
-    console.log("Imagga API response:", data);
+    console.log("AICoolHub API response:", data);
     
-    if (!data.result || !data.result.tags || data.result.tags.length === 0) {
-      console.error("No tags found in Imagga response");
+    if (!data.results || !Array.isArray(data.results) || data.results.length === 0) {
+      console.error("No results found in AICoolHub response");
       return null;
     }
     
-    // Extract relevant car tags from the response
-    const carTags = data.result.tags
-      .filter((tag: any) => tag.confidence > 30) // Only consider tags with decent confidence
-      .map((tag: any) => tag.tag.en.toLowerCase());
+    // Extract car information from the response
+    const carInfoResults = data.results.map((result: any) => ({
+      make: result.make || '',
+      model: result.model || '',
+      year: result.year || '',
+      confidence: result.confidence || 0
+    })).filter((car: any) => car.confidence > 30);
     
-    console.log("Detected car tags:", carTags);
+    console.log("Detected car information:", carInfoResults);
     
-    // Find matching cars based on the tags
-    for (const tag of carTags) {
-      const matchedCarId = findMatchingCar(tag);
-      if (matchedCarId) {
-        console.log(`Matched car: ${matchedCarId} from Imagga tag: ${tag}`);
-        const car = carDatabase.find(car => car.id === matchedCarId);
-        if (car) return car;
+    if (carInfoResults.length === 0) {
+      return null;
+    }
+    
+    // Try to find a matching car in our database
+    for (const carInfo of carInfoResults) {
+      const searchTerms = [
+        carInfo.make.toLowerCase(),
+        carInfo.model.toLowerCase(),
+        `${carInfo.make} ${carInfo.model}`.toLowerCase()
+      ];
+      
+      for (const term of searchTerms) {
+        const matchedCarId = findMatchingCar(term);
+        if (matchedCarId) {
+          console.log(`Matched car: ${matchedCarId} from AICoolHub result: ${term}`);
+          const car = carDatabase.find(car => car.id === matchedCarId);
+          if (car) return car;
+        }
       }
     }
     
-    // If we detected car-related terms but no specific match
-    const isCarImage = carTags.some(tag => 
-      tag.includes('car') || tag.includes('vehicle') || 
-      tag.includes('auto') || tag.includes('sport') ||
-      tag.includes('coupe') || tag.includes('sedan') ||
-      tag.includes('race') || tag.includes('jdm')
+    // If we found a car but no specific match in our database
+    const bestGuess = carInfoResults[0];
+    console.log("No exact match found. Best guess:", bestGuess);
+    
+    // Try to find a car from the same manufacturer
+    const manufacturerMatch = carDatabase.find(car => 
+      car.manufacturer.toLowerCase() === bestGuess.make.toLowerCase()
     );
     
-    if (isCarImage) {
-      console.log("Car detected by Imagga, but no specific match. Making smart guess...");
-      return smartGuess(carTags.map(tag => ({ label: tag })));
+    if (manufacturerMatch) {
+      console.log(`Found car from same manufacturer: ${manufacturerMatch.id}`);
+      return manufacturerMatch;
     }
     
-    return null;
+    return smartGuess(carInfoResults.map(info => ({ 
+      label: `${info.make} ${info.model} ${info.year}` 
+    })));
   } catch (error) {
-    console.error("Error in Imagga car identification:", error);
+    console.error("Error in AICoolHub car identification:", error);
     return null;
   }
 };
 
-// Enhanced car identification function using online API and fallback to local model
+// Main car identification function with multiple fallback options
 export const identifyCar = async (imageSrc: string): Promise<CarInfo | null> => {
   console.log("Starting car identification process...");
   
-  // First try with the Imagga API
+  // First try with the AICoolHub API
   try {
-    const imaggaResult = await identifyWithImaggaApi(imageSrc);
-    if (imaggaResult) {
-      console.log("Car successfully identified with Imagga API");
-      return imaggaResult;
+    const aiCoolHubResult = await identifyWithAICoolHub(imageSrc);
+    if (aiCoolHubResult) {
+      console.log("Car successfully identified with AICoolHub API");
+      return aiCoolHubResult;
     }
   } catch (error) {
-    console.error("Imagga API identification failed:", error);
+    console.error("AICoolHub API identification failed:", error);
     // Continue to fallback methods
   }
   
-  // If Imagga didn't work, try with the local Hugging Face model
+  // If AICoolHub didn't work, try with the local Hugging Face model
   try {
     console.log("Falling back to local vision model...");
     
@@ -190,7 +201,7 @@ export const identifyCar = async (imageSrc: string): Promise<CarInfo | null> => 
     for (const prediction of results) {
       if (!prediction || typeof prediction !== 'object') continue;
       
-      // Fix: Safely access the label property, which might have a different structure
+      // Safely access the label property, which might have a different structure
       const predictionLabel = prediction.label || 
                              (prediction as any).className || 
                              '';
