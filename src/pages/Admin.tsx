@@ -21,49 +21,53 @@ const Admin: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-jdm-light to-white">
-      <Header />
-      
-      <main className="flex-grow w-full max-w-7xl mx-auto px-4 py-8">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="w-full"
-        >
-          <div className="mb-8">
-            <button
-              onClick={() => navigate('/')}
-              className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900"
-            >
-              <ChevronLeft size={16} className="mr-1" />
-              Back to Home
-            </button>
-            
-            <h1 className="text-2xl font-bold mt-4 mb-6">JDM Database Management</h1>
-            <p className="text-gray-600 mb-4">
-              Add new cars to the database. All data will be saved locally in your browser and will persist between visits.
-            </p>
-            
-            <div className="mb-6 p-4 bg-blue-50 border border-blue-100 rounded-md">
-              <div className="flex items-start">
-                <Search size={20} className="text-blue-500 mr-2 mt-0.5" />
-                <div>
-                  <h3 className="font-medium text-blue-700">How to view your cars</h3>
-                  <p className="text-sm text-blue-600">
-                    After adding a car, go to the home page and search for it by name or manufacturer.
-                    The image and details you uploaded will be displayed in the search results.
-                  </p>
+    <div className="min-h-screen flex flex-col bg-cover bg-center bg-fixed" style={{ backgroundImage: 'url("/bg-jdm.jpg")' }}>
+      <div className="min-h-screen flex flex-col bg-black/40 backdrop-blur-sm">
+        <Header />
+        
+        <main className="flex-grow w-full max-w-7xl mx-auto px-4 py-8">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="w-full"
+          >
+            <div className="mb-8 bg-white/90 backdrop-blur-md rounded-lg p-6">
+              <button
+                onClick={() => navigate('/')}
+                className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900"
+              >
+                <ChevronLeft size={16} className="mr-1" />
+                Back to Home
+              </button>
+              
+              <h1 className="text-2xl font-bold mt-4 mb-6">JDM Database Management</h1>
+              <p className="text-gray-600 mb-4">
+                Add new cars to the database. All data will be saved locally in your browser and will persist between visits.
+              </p>
+              
+              <div className="mb-6 p-4 bg-blue-50 border border-blue-100 rounded-md">
+                <div className="flex items-start">
+                  <Search size={20} className="text-blue-500 mr-2 mt-0.5" />
+                  <div>
+                    <h3 className="font-medium text-blue-700">How to view your cars</h3>
+                    <p className="text-sm text-blue-600">
+                      After adding a car, go to the home page and search for it by name or manufacturer.
+                      The image and details you uploaded will be displayed in the search results.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          
-          <CarDataUploader onCarAdded={handleCarAdded} />
-        </motion.div>
-      </main>
-      
-      <Footer />
+            
+            <div className="bg-white/90 backdrop-blur-md rounded-lg p-6">
+              <CarDataUploader onCarAdded={handleCarAdded} />
+            </div>
+          </motion.div>
+        </main>
+        
+        <Footer />
+      </div>
     </div>
   );
 };
