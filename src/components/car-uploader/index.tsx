@@ -10,7 +10,11 @@ import DealerForm from './DealerForm';
 import FormActions from './FormActions';
 import { Car } from 'lucide-react';
 
-const CarDataUploader: React.FC = () => {
+interface CarDataUploaderProps {
+  onCarAdded?: () => void;
+}
+
+const CarDataUploader: React.FC<CarDataUploaderProps> = ({ onCarAdded }) => {
   const { toast } = useToast();
   const [carImage, setCarImage] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -87,6 +91,18 @@ const CarDataUploader: React.FC = () => {
         dealers: formData.dealers as Dealer[]
       };
       
+      // Validate image
+      if (!newCar.imageUrl) {
+        toast({
+          title: "Image required",
+          description: "Please upload an image of the car",
+          variant: "destructive",
+          duration: 3000,
+        });
+        setIsUploading(false);
+        return;
+      }
+      
       // Save the car to the database (which handles localStorage persistence)
       saveCarToDatabase(newCar);
       
@@ -96,6 +112,11 @@ const CarDataUploader: React.FC = () => {
         description: `${manufacturer} ${name} has been added to the database and will persist across page refreshes.`,
         duration: 5000,
       });
+      
+      // Call the onCarAdded callback if provided
+      if (onCarAdded) {
+        onCarAdded();
+      }
       
       // Reset form
       resetForm();

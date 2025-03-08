@@ -18,12 +18,54 @@ const CarImageUpload: React.FC<CarImageUploadProps> = ({
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
+      
+      // Check file size (5MB max)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File is too large. Maximum size is 5MB.');
+        return;
+      }
+      
       const reader = new FileReader();
       
       reader.onload = (event) => {
         if (event.target?.result) {
-          setCarImage(event.target.result as string);
-          setFormData(prev => ({ ...prev, imageUrl: event.target?.result as string }));
+          const imageData = event.target.result as string;
+          setCarImage(imageData);
+          setFormData(prev => ({ ...prev, imageUrl: imageData }));
+          console.log("Image data loaded, length:", imageData.length);
+        }
+      };
+      
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const file = e.dataTransfer.files[0];
+      
+      // Check file size (5MB max)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File is too large. Maximum size is 5MB.');
+        return;
+      }
+      
+      const reader = new FileReader();
+      
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          const imageData = event.target.result as string;
+          setCarImage(imageData);
+          setFormData(prev => ({ ...prev, imageUrl: imageData }));
+          console.log("Image data loaded via drag and drop, length:", imageData.length);
         }
       };
       
@@ -40,6 +82,8 @@ const CarImageUpload: React.FC<CarImageUploadProps> = ({
       <div 
         className="border-2 border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer hover:border-jdm-red transition-colors"
         onClick={() => fileInputRef.current?.click()}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
       >
         <input
           type="file"

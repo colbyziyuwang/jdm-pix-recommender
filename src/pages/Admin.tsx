@@ -6,11 +6,19 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import CarDataUploader from '../components/car-uploader';
 import { motion } from 'framer-motion';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, Search } from 'lucide-react';
 
 const Admin: React.FC = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
+
+  const handleCarAdded = () => {
+    toast({
+      title: "Car added successfully",
+      description: "Car has been added to the database. View it by searching on the home page.",
+      duration: 5000,
+    });
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-jdm-light to-white">
@@ -36,9 +44,22 @@ const Admin: React.FC = () => {
             <p className="text-gray-600 mb-4">
               Add new cars to the database. All data will be saved locally in your browser and will persist between visits.
             </p>
+            
+            <div className="mb-6 p-4 bg-blue-50 border border-blue-100 rounded-md">
+              <div className="flex items-start">
+                <Search size={20} className="text-blue-500 mr-2 mt-0.5" />
+                <div>
+                  <h3 className="font-medium text-blue-700">How to view your cars</h3>
+                  <p className="text-sm text-blue-600">
+                    After adding a car, go to the home page and search for it by name or manufacturer.
+                    The image and details you uploaded will be displayed in the search results.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
           
-          <CarDataUploader />
+          <CarDataUploader onCarAdded={handleCarAdded} />
         </motion.div>
       </main>
       
