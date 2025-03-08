@@ -1,8 +1,9 @@
+
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Index from './pages/Index';
 import NotFound from './pages/NotFound';
-import { Toaster } from './components/ui/use-toast';
+import { Toaster } from './components/ui/toaster';
 import Admin from './pages/Admin';
 import './App.css';
 
