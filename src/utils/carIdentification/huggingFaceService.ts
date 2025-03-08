@@ -34,10 +34,12 @@ export const identifyWithHuggingFace = async (imageSrc: string): Promise<CarInfo
   for (const prediction of results) {
     if (!prediction || typeof prediction !== 'object') continue;
     
-    // Safely access the label property, which might have a different structure
-    const predictionLabel = prediction.label || 
-                          (prediction as any).className || 
-                          '';
+    // The model may return results with different property names depending on version
+    // Safely access the label property, checking for both common formats
+    const predictionLabel = 
+      'label' in prediction ? prediction.label : 
+      'className' in prediction ? (prediction as any).className : 
+      '';
     
     const label = typeof predictionLabel === 'string' ? predictionLabel.toLowerCase() : '';
     
@@ -52,7 +54,12 @@ export const identifyWithHuggingFace = async (imageSrc: string): Promise<CarInfo
   
   // If no specific car was identified but it's a car/vehicle
   const isCar = results.some(result => {
-    const label = result.label || (result as any).className || '';
+    // Handle different property names in results
+    const label = 
+      'label' in result ? result.label : 
+      'className' in result ? (result as any).className : 
+      '';
+      
     const labelText = typeof label === 'string' ? label.toLowerCase() : '';
     return labelText.includes('car') || labelText.includes('vehicle') || labelText.includes('automobile');
   });
