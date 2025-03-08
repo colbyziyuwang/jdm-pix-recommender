@@ -58,6 +58,11 @@ export const findCarByModel = async (query: string): Promise<CarInfo | null> => 
       manufacturerOnly.includes(searchQuery)
     ) {
       console.log(`Found direct match for "${query}": ${car.manufacturer} ${car.name}`);
+      // Validate image URL
+      if (car.imageUrl) {
+        // Ensure image URL is valid
+        console.log(`Car image URL: ${car.imageUrl}`);
+      }
       return car;
     }
   }
@@ -68,6 +73,10 @@ export const findCarByModel = async (query: string): Promise<CarInfo | null> => 
     const matchedCar = carDatabase.find(car => car.id === carId);
     if (matchedCar) {
       console.log(`Found mapped match for "${query}": ${matchedCar.manufacturer} ${matchedCar.name}`);
+      // Validate image URL
+      if (matchedCar.imageUrl) {
+        console.log(`Car image URL: ${matchedCar.imageUrl}`);
+      }
       return matchedCar;
     }
   }

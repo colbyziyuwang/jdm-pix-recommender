@@ -13,7 +13,7 @@ export const carDatabase: CarInfo[] = [
     topSpeed: "315 km/h",
     acceleration: "0-100 km/h in 2.7s",
     description: "The Nissan GT-R (R35) is a high-performance sports car and grand tourer produced by Nissan. It was unveiled in 2007 and went on sale in Japan in December 2007, in the United States and Europe in July 2008, and in other regions in March 2009. The GT-R is Nissan's flagship performance vehicle, featuring a handbuilt twin-turbo V6 engine, all-wheel drive, and advanced electronics.",
-    imageUrl: "https://images.unsplash.com/photo-1595527516696-78808bc49bfc?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3",
+    imageUrl: "https://images.pexels.com/photos/6894426/pexels-photo-6894426.jpeg",
     dealers: [
       {
         name: "Tokyo Nissan Premium",
@@ -39,7 +39,7 @@ export const carDatabase: CarInfo[] = [
     topSpeed: "285 km/h",
     acceleration: "0-100 km/h in 4.6s",
     description: "The Toyota Supra is a sports car and grand tourer manufactured by Toyota. The MK4 Supra, produced between 1993 and 2002, gained worldwide fame for its remarkable 2JZ-GTE twin-turbocharged inline-six engine, which was highly tunable and capable of handling immense power increases. The fourth-generation Supra became an iconic JDM legend, featured in movies, video games, and car enthusiast communities worldwide.",
-    imageUrl: "https://images.unsplash.com/photo-1632441145497-4152ba453a59?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3",
+    imageUrl: "https://images.pexels.com/photos/13617921/pexels-photo-13617921.jpeg",
     dealers: [
       {
         name: "Classic JDM Imports",
@@ -59,7 +59,7 @@ export const carDatabase: CarInfo[] = [
     topSpeed: "250 km/h",
     acceleration: "0-100 km/h in 5.2s",
     description: "The Mazda RX-7 is a front-engine, rear-wheel-drive, rotary engine-powered sports car that was manufactured and marketed by Mazda from 1978 to 2002. The third-generation FD model featured a sequential twin-turbocharger system, lightweight design, and a rotary engine, making it a unique and highly sought-after JDM classic. Its distinctive styling and exceptional handling earned it a dedicated following among enthusiasts.",
-    imageUrl: "https://images.unsplash.com/photo-1669383739152-9d64ab8bad3f?q=80&w=1064&auto=format&fit=crop&ixlib=rb-4.0.3",
+    imageUrl: "https://images.pexels.com/photos/12801195/pexels-photo-12801195.jpeg",
     dealers: [
       {
         name: "Rotary Performance",
@@ -79,7 +79,7 @@ export const carDatabase: CarInfo[] = [
     topSpeed: "255 km/h",
     acceleration: "0-100 km/h in 4.9s",
     description: "The Subaru Impreza WRX STI is a high-performance variant of the Subaru Impreza, manufactured by Subaru. The STI versions are characterized by their rally-inspired technology and powerful turbocharged engines. The car gained worldwide fame through its successes in the World Rally Championship and became an icon of JDM performance with its distinctive boxer engine rumble and all-wheel-drive system.",
-    imageUrl: "https://images.unsplash.com/photo-1621005570352-92959a12ec80?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.0.3",
+    imageUrl: "https://images.pexels.com/photos/7813441/pexels-photo-7813441.jpeg",
     dealers: [
       {
         name: "Rally Imports",
@@ -99,7 +99,7 @@ export const carDatabase: CarInfo[] = [
     topSpeed: "242 km/h",
     acceleration: "0-100 km/h in 5.0s",
     description: "The Mitsubishi Lancer Evolution, also known as the Evo, is a sports sedan based on the Lancer that was manufactured by Mitsubishi Motors. There have been ten official versions to date, and the designation of each model is most commonly a Roman numeral. The Evolution was Mitsubishi's flagship sports model and competed directly against the Subaru Impreza WRX STI in the rally-inspired high-performance compact sedan segment.",
-    imageUrl: "https://images.unsplash.com/photo-1611016186353-9af58c69a533?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.0.3",
+    imageUrl: "https://images.pexels.com/photos/9706799/pexels-photo-9706799.jpeg",
     dealers: [
       {
         name: "Evolution Specialists",
@@ -119,7 +119,7 @@ export const carDatabase: CarInfo[] = [
     topSpeed: "270 km/h",
     acceleration: "0-100 km/h in 5.6s",
     description: "The Honda NSX, marketed in North America as the Acura NSX, is a two-seat, mid-engine coupe sports car manufactured by Honda. The original NSX was developed by Honda to showcase the company's technological prowess and competed with high-end sports cars like Ferrari while offering reliability and everyday usability. Its lightweight aluminum body, VTEC engine technology, and handling were revolutionary for its time.",
-    imageUrl: "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=1064&auto=format&fit=crop&ixlib=rb-4.0.3",
+    imageUrl: "https://images.pexels.com/photos/10571264/pexels-photo-10571264.jpeg",
     dealers: [
       {
         name: "Honda Heritage Collection",

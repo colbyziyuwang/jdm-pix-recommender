@@ -21,16 +21,21 @@ const CarInfo: React.FC<CarInfoProps> = ({ car }) => {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative overflow-hidden rounded-2xl"
+          className="relative overflow-hidden rounded-2xl h-[400px]"
         >
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
           <motion.img 
             src={car.imageUrl} 
-            alt={car.name}
+            alt={`${car.manufacturer} ${car.name}`}
             className="w-full h-full object-cover object-center"
             initial={{ scale: 1.1 }}
             animate={{ scale: 1 }}
             transition={{ duration: 1 }}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = '/placeholder.svg'; // Fallback to placeholder if image fails to load
+              console.log(`Image failed to load: ${car.imageUrl}`);
+            }}
           />
           <div className="absolute bottom-0 left-0 p-6 z-20">
             <div className="inline-block px-3 py-1 bg-jdm-red text-white text-xs font-medium rounded-full mb-2">
