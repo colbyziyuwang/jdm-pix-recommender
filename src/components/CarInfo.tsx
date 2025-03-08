@@ -16,97 +16,63 @@ const CarInfo: React.FC<CarInfoProps> = ({ car }) => {
       transition={{ duration: 0.6, ease: 'easeOut' }}
       className="w-full max-w-4xl mx-auto my-12"
     >
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative overflow-hidden rounded-2xl h-[400px]"
-        >
-          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
-          {car.imageUrl ? (
-            <motion.img 
-              src={car.imageUrl} 
-              alt={`${car.manufacturer} ${car.name}`}
-              className="w-full h-full object-cover object-center"
-              initial={{ scale: 1.1 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 1 }}
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.src = '/placeholder.svg'; // Fallback to placeholder if image fails to load
-                console.error(`Image failed to load: ${car.imageUrl}`);
-              }}
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gray-100">
-              <p className="text-gray-500">No image available</p>
-            </div>
-          )}
-          <div className="absolute bottom-0 left-0 p-6 z-20">
-            <div className="inline-block px-3 py-1 bg-jdm-red text-white text-xs font-medium rounded-full mb-2">
-              {car.manufacturer}
-            </div>
-            <h3 className="text-3xl font-semibold text-white mb-1">{car.name}</h3>
-            <p className="text-white/80 text-sm">{car.yearRange}</p>
+      <div className="p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl mb-8">
+        <div className="mb-6">
+          <div className="inline-block px-3 py-1 bg-jdm-red text-white text-xs font-medium rounded-full mb-2">
+            {car.manufacturer}
           </div>
-        </motion.div>
+          <h3 className="text-3xl font-semibold mb-1">{car.name}</h3>
+          <p className="text-muted-foreground text-sm">{car.yearRange}</p>
+        </div>
         
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl"
-        >
-          <h3 className="text-xl font-medium mb-4">Specifications</h3>
-          
-          <div className="space-y-4">
-            <div className="flex items-start">
-              <div className="w-8 h-8 bg-jdm-red/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                <Car size={16} className="text-jdm-red" />
-              </div>
-              <div>
-                <p className="text-sm font-medium">Engine</p>
-                <p className="text-sm text-muted-foreground">{car.engineInfo || "Information not available"}</p>
-              </div>
+        <h3 className="text-xl font-medium mb-4">Specifications</h3>
+        
+        <div className="space-y-4">
+          <div className="flex items-start">
+            <div className="w-8 h-8 bg-jdm-red/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+              <Car size={16} className="text-jdm-red" />
             </div>
-            
-            <div className="flex items-start">
-              <div className="w-8 h-8 bg-jdm-red/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                <Zap size={16} className="text-jdm-red" />
-              </div>
-              <div>
-                <p className="text-sm font-medium">Power</p>
-                <p className="text-sm text-muted-foreground">{car.power || "Information not available"}</p>
-              </div>
-            </div>
-            
-            <div className="flex items-start">
-              <div className="w-8 h-8 bg-jdm-red/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                <Gauge size={16} className="text-jdm-red" />
-              </div>
-              <div>
-                <p className="text-sm font-medium">Top Speed</p>
-                <p className="text-sm text-muted-foreground">{car.topSpeed || "Information not available"}</p>
-              </div>
-            </div>
-            
-            <div className="flex items-start">
-              <div className="w-8 h-8 bg-jdm-red/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                <Timer size={16} className="text-jdm-red" />
-              </div>
-              <div>
-                <p className="text-sm font-medium">Acceleration</p>
-                <p className="text-sm text-muted-foreground">{car.acceleration || "Information not available"}</p>
-              </div>
+            <div>
+              <p className="text-sm font-medium">Engine</p>
+              <p className="text-sm text-muted-foreground">{car.engineInfo || "Information not available"}</p>
             </div>
           </div>
           
-          <div className="mt-6">
-            <h4 className="text-sm font-medium mb-2">Description</h4>
-            <p className="text-sm text-muted-foreground leading-relaxed">{car.description || "No description available."}</p>
+          <div className="flex items-start">
+            <div className="w-8 h-8 bg-jdm-red/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+              <Zap size={16} className="text-jdm-red" />
+            </div>
+            <div>
+              <p className="text-sm font-medium">Power</p>
+              <p className="text-sm text-muted-foreground">{car.power || "Information not available"}</p>
+            </div>
           </div>
-        </motion.div>
+          
+          <div className="flex items-start">
+            <div className="w-8 h-8 bg-jdm-red/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+              <Gauge size={16} className="text-jdm-red" />
+            </div>
+            <div>
+              <p className="text-sm font-medium">Top Speed</p>
+              <p className="text-sm text-muted-foreground">{car.topSpeed || "Information not available"}</p>
+            </div>
+          </div>
+          
+          <div className="flex items-start">
+            <div className="w-8 h-8 bg-jdm-red/10 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+              <Timer size={16} className="text-jdm-red" />
+            </div>
+            <div>
+              <p className="text-sm font-medium">Acceleration</p>
+              <p className="text-sm text-muted-foreground">{car.acceleration || "Information not available"}</p>
+            </div>
+          </div>
+        </div>
+        
+        <div className="mt-6">
+          <h4 className="text-sm font-medium mb-2">Description</h4>
+          <p className="text-sm text-muted-foreground leading-relaxed">{car.description || "No description available."}</p>
+        </div>
       </div>
       
       {car.dealers && car.dealers.length > 0 && (
@@ -114,7 +80,7 @@ const CarInfo: React.FC<CarInfoProps> = ({ car }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-8 p-6 bg-jdm-dark/5 backdrop-blur-sm rounded-2xl border border-jdm-dark/10"
+          className="p-6 bg-jdm-dark/5 backdrop-blur-sm rounded-2xl border border-jdm-dark/10"
         >
           <h3 className="text-xl font-medium mb-4">Available Dealers</h3>
           

@@ -44,11 +44,6 @@ export const fetchCarInfoFromJCG = async (query: string): Promise<CarInfo | null
     const manufacturer = nameParts[0] || 'Unknown';
     const name = nameParts.slice(1).join(' ') || 'Unknown Model';
     
-    // Extract image URL
-    const imgRegex = /<meta\s+property="og:image"\s+content="([^"]+)"/i;
-    const imgMatch = detailHtml.match(imgRegex);
-    const imageUrl = imgMatch && imgMatch[1] ? imgMatch[1] : '';
-    
     // Extract description
     const descRegex = /<meta\s+name="description"\s+content="([^"]+)"/i;
     const descMatch = detailHtml.match(descRegex);
@@ -81,7 +76,7 @@ export const fetchCarInfoFromJCG = async (query: string): Promise<CarInfo | null
       topSpeed: 'Information not available',
       acceleration: 'Information not available',
       description,
-      imageUrl,
+      imageUrl: '', // Empty string since we're not using images
       dealers: [
         {
           name: 'Japan Car Guide',
