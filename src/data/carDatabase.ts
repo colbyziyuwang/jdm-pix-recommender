@@ -1,8 +1,8 @@
 
 import { CarInfo } from '../types/car';
 
-// Sample data for JDM cars
-export const carDatabase: CarInfo[] = [
+// Default car data
+const defaultCarDatabase: CarInfo[] = [
   {
     id: "nissan-gtr-r35",
     name: "GT-R R35",
@@ -136,3 +136,32 @@ export const carDatabase: CarInfo[] = [
     ]
   }
 ];
+
+// Load cars from localStorage or use defaults
+const loadCarsFromStorage = (): CarInfo[] => {
+  try {
+    const savedCars = localStorage.getItem('jdmCarDatabase');
+    if (savedCars) {
+      return JSON.parse(savedCars);
+    }
+  } catch (error) {
+    console.error('Error loading cars from localStorage:', error);
+  }
+  return defaultCarDatabase;
+};
+
+// Initialize the car database
+export const carDatabase: CarInfo[] = loadCarsFromStorage();
+
+// Function to save cars to localStorage
+export const saveCarToDatabase = (car: CarInfo): void => {
+  // Add the car to the in-memory database
+  carDatabase.push(car);
+  
+  // Save the updated database to localStorage
+  try {
+    localStorage.setItem('jdmCarDatabase', JSON.stringify(carDatabase));
+  } catch (error) {
+    console.error('Error saving cars to localStorage:', error);
+  }
+};

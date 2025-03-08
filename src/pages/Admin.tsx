@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useToast } from '../components/ui/use-toast';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
@@ -33,6 +33,9 @@ const Admin: React.FC = () => {
             </button>
             
             <h1 className="text-2xl font-bold mt-4 mb-6">JDM Database Management</h1>
+            <p className="text-gray-600 mb-4">
+              Add new cars to the database. All data will be saved locally in your browser and will persist between visits.
+            </p>
           </div>
           
           <CarDataUploader />

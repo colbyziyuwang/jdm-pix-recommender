@@ -1,9 +1,8 @@
-
 import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Plus, Car, Upload, X, Check, Trash2 } from 'lucide-react';
 import { useToast } from './ui/use-toast';
-import { carDatabase } from '../data/carDatabase';
+import { carDatabase, saveCarToDatabase } from '../data/carDatabase';
 import { CarInfo, Dealer } from '../types/car';
 
 const CarDataUploader: React.FC = () => {
@@ -100,18 +99,13 @@ const CarDataUploader: React.FC = () => {
         dealers: formData.dealers as Dealer[]
       };
       
-      // In a real app, this would be an API call to save to the server
-      // For now, we'll just log it and simulate adding it to the local database
-      console.log('New car data to be added:', newCar);
-      
-      // Add to the in-memory database
-      // Note: This will not persist between page refreshes without a backend
-      (carDatabase as CarInfo[]).push(newCar);
+      // Save the car to the database (which now handles localStorage persistence)
+      saveCarToDatabase(newCar);
       
       // Show success message
       toast({
         title: "Car added successfully",
-        description: `${manufacturer} ${name} has been added to the database.`,
+        description: `${manufacturer} ${name} has been added to the database and will persist across page refreshes.`,
         duration: 5000,
       });
       
