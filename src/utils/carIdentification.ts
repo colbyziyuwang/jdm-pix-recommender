@@ -33,9 +33,20 @@ const findMatchingCar = (label: string): string | null => {
 // Make a smart guess based on visual features detected
 const smartGuess = (results: any[]): CarInfo => {
   // Extract visual features that might indicate specific car types
-  const hasRed = results.some(r => r.label?.toLowerCase().includes('red'));
-  const hasSports = results.some(r => r.label?.toLowerCase().includes('sports') || r.label?.toLowerCase().includes('racing'));
-  const hasSedan = results.some(r => r.label?.toLowerCase().includes('sedan'));
+  const hasRed = results.some(r => {
+    const label = typeof r.label === 'string' ? r.label.toLowerCase() : '';
+    return label.includes('red');
+  });
+  
+  const hasSports = results.some(r => {
+    const label = typeof r.label === 'string' ? r.label.toLowerCase() : '';
+    return label.includes('sports') || label.includes('racing');
+  });
+  
+  const hasSedan = results.some(r => {
+    const label = typeof r.label === 'string' ? r.label.toLowerCase() : '';
+    return label.includes('sedan');
+  });
   
   // Make educated guesses based on visual features
   if (hasRed && hasSports) {
@@ -82,7 +93,7 @@ export const identifyCar = async (imageSrc: string): Promise<CarInfo | null> => 
     console.log("Vision model results:", results);
     
     // Extract the top predictions
-    if (!results || !results.length) {
+    if (!results || !Array.isArray(results) || results.length === 0) {
       console.error("No classification results returned");
       return fallbackIdentification();
     }
@@ -91,7 +102,13 @@ export const identifyCar = async (imageSrc: string): Promise<CarInfo | null> => 
     for (const prediction of results) {
       if (!prediction || typeof prediction !== 'object') continue;
       
-      const label = prediction.label?.toLowerCase() || '';
+      // Fix: Safely access the label property, which might have a different structure
+      const predictionLabel = prediction.label || 
+                             (prediction as any).className || 
+                             '';
+      
+      const label = typeof predictionLabel === 'string' ? predictionLabel.toLowerCase() : '';
+      
       // Search for car keywords in the prediction labels
       const matchedCarId = findMatchingCar(label);
       if (matchedCarId) {
@@ -102,10 +119,13 @@ export const identifyCar = async (imageSrc: string): Promise<CarInfo | null> => 
     }
     
     // If no specific car was identified but it's a car/vehicle
-    if (results.some(result => {
-      const label = result.label?.toLowerCase() || '';
-      return label.includes('car') || label.includes('vehicle') || label.includes('automobile');
-    })) {
+    const isCar = results.some(result => {
+      const label = result.label || (result as any).className || '';
+      const labelText = typeof label === 'string' ? label.toLowerCase() : '';
+      return labelText.includes('car') || labelText.includes('vehicle') || labelText.includes('automobile');
+    });
+    
+    if (isCar) {
       console.log("Generic car detected, making best guess...");
       return smartGuess(results);
     }
