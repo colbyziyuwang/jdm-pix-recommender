@@ -108,5 +108,31 @@ export const carDatabase: CarInfo[] = [
         website: "https://www.evolutionspecialists.com"
       }
     ]
+  },
+  {
+    id: "honda-nsx",
+    name: "NSX",
+    manufacturer: "Honda",
+    yearRange: "1990-2005",
+    engineInfo: "3.0L VTEC V6",
+    power: "290 HP",
+    topSpeed: "270 km/h",
+    acceleration: "0-100 km/h in 5.6s",
+    description: "The Honda NSX, marketed in North America as the Acura NSX, is a two-seat, mid-engine coupe sports car manufactured by Honda. The original NSX was developed by Honda to showcase the company's technological prowess and competed with high-end sports cars like Ferrari while offering reliability and everyday usability. Its lightweight aluminum body, VTEC engine technology, and handling were revolutionary for its time.",
+    imageUrl: "https://images.unsplash.com/photo-1600712242805-5f78671b24da?q=80&w=1064&auto=format&fit=crop&ixlib=rb-4.0.3",
+    dealers: [
+      {
+        name: "Honda Heritage Collection",
+        location: "Tokyo, Japan",
+        contact: "+81-3-9876-5432",
+        website: "https://www.honda.com"
+      },
+      {
+        name: "Classic Japanese Motors",
+        location: "San Francisco, CA",
+        contact: "(415) 555-8765",
+        website: "https://www.classicjapanese.com"
+      }
+    ]
   }
 ];
