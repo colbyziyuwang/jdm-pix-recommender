@@ -5,6 +5,7 @@ import { CarInfo as CarInfoType } from '../types/car';
 import { Gauge, Car, Zap, Timer, MapPin, Phone, Globe, Navigation } from 'lucide-react';
 import { Button } from './ui/button';
 import { useToast } from './ui/use-toast';
+import CarLLMChat from './CarLLMChat';
 
 interface CarInfoProps {
   car: CarInfoType;
@@ -136,6 +137,15 @@ const CarInfo: React.FC<CarInfoProps> = ({ car }) => {
           <p className="text-sm text-muted-foreground leading-relaxed">{car.description || "No description available."}</p>
         </div>
       </div>
+      
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+        className="p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl mb-8"
+      >
+        <CarLLMChat car={car} />
+      </motion.div>
       
       {car.dealers && car.dealers.length > 0 && (
         <motion.div
