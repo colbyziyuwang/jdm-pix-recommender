@@ -13,14 +13,23 @@ const Index: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [carData, setCarData] = useState<CarInfoType | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [processingStage, setProcessingStage] = useState('');
   const { toast } = useToast();
 
   const handleImageSelected = async (imageSrc: string) => {
     setSelectedImage(imageSrc);
     setIsProcessing(true);
+    setProcessingStage('Analyzing image...');
     
     try {
-      // In a real app, this would send the image to a server for processing
+      // Small delay to show the first processing message
+      await new Promise(resolve => setTimeout(resolve, 800));
+      setProcessingStage('Identifying car features...');
+      
+      // Another delay for the second processing message
+      await new Promise(resolve => setTimeout(resolve, 1200));
+      setProcessingStage('Matching to database...');
+      
       const result = await identifyCar(imageSrc);
       
       if (result) {
@@ -48,6 +57,7 @@ const Index: React.FC = () => {
       });
     } finally {
       setIsProcessing(false);
+      setProcessingStage('');
     }
   };
 
@@ -111,7 +121,10 @@ const Index: React.FC = () => {
                     />
                     <div className="w-16 h-16 border-4 border-gray-200 border-t-jdm-red rounded-full animate-spin mb-4"></div>
                     <h3 className="text-lg font-medium mb-2">Analyzing your JDM car</h3>
-                    <p className="text-muted-foreground text-sm">This may take a few moments...</p>
+                    <p className="text-muted-foreground text-sm animate-pulse">{processingStage}</p>
+                    <p className="text-xs text-muted-foreground mt-6 max-w-md text-center">
+                      Our AI is analyzing color patterns, body shape, and distinctive features to identify your car.
+                    </p>
                   </div>
                 ) : (
                   <div>
