@@ -21,15 +21,15 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
           message.sender === 'user' ? 'bg-jdm-red/20' : 'bg-white/20'
         }`}>
           {message.sender === 'user' ? (
-            <User size={14} className="text-white" />
+            <User size={14} className="text-black" />
           ) : (
-            <Bot size={14} className="text-white" />
+            <Bot size={14} className="text-black" />
           )}
         </div>
         <div className={`rounded-2xl px-4 py-2 ${
           message.sender === 'user' 
             ? 'bg-jdm-red text-white rounded-tr-none' 
-            : 'bg-white/20 text-white rounded-tl-none'
+            : 'bg-white/20 text-black rounded-tl-none'
         }`}>
           <p className="text-sm">{message.content}</p>
         </div>
