@@ -21,8 +21,8 @@ const Admin: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-cover bg-center bg-fixed" style={{ backgroundImage: 'url("/bg-jdm.jpg")' }}>
-      <div className="min-h-screen flex flex-col bg-black/40 backdrop-blur-sm">
+    <div className="min-h-screen flex flex-col bg-cover bg-center bg-fixed" style={{ backgroundImage: 'url("/lovable-uploads/be904234-5f43-47a4-9dd1-ee57e1e152b8.png")' }}>
+      <div className="min-h-screen flex flex-col bg-black/60 backdrop-blur-sm">
         <Header />
         
         <main className="flex-grow w-full max-w-7xl mx-auto px-4 py-8">
