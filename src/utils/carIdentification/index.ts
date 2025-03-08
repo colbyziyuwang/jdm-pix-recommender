@@ -6,6 +6,7 @@ import { identifyWithHuggingFace } from './huggingFaceService';
 import { fallbackIdentification } from './fallbackService';
 import { findMatchingCar } from './carMatchingUtils';
 import { carDatabase } from '../../data/carDatabase';
+import { fetchCarInfoFromJCG } from './japanCarGuideService';
 
 // Main car identification function with multiple fallback options
 export const identifyCar = async (imageSrc: string): Promise<CarInfo | null> => {
@@ -53,7 +54,7 @@ export const findCarByModel = async (query: string): Promise<CarInfo | null> => 
     return null;
   }
 
-  // Direct database search for exact or partial matches
+  // First try using local database for exact or partial matches
   let matchingCars = carDatabase.filter(car => {
     // Check if query matches car name or manufacturer + name
     const fullName = `${car.manufacturer} ${car.name}`.toLowerCase();
@@ -68,21 +69,33 @@ export const findCarByModel = async (query: string): Promise<CarInfo | null> => 
   });
   
   if (matchingCars.length > 0) {
-    console.log(`Found ${matchingCars.length} direct matches for "${query}"`);
+    console.log(`Found ${matchingCars.length} direct matches in local database for "${query}"`);
     const bestMatch = matchingCars[0]; // Take the first match
     console.log(`Best match: ${bestMatch.manufacturer} ${bestMatch.name}`);
     
     // Validate image URL
     if (bestMatch.imageUrl) {
       console.log(`Car image URL: ${bestMatch.imageUrl}`);
+      return bestMatch;
     } else {
       console.error(`No image URL for ${bestMatch.manufacturer} ${bestMatch.name}`);
+      // We'll continue to try other methods
     }
-    
-    return bestMatch;
   }
   
-  // If no direct match, try matching individual words
+  // If no direct match in local database, try fetching from Japan Car Guide
+  try {
+    console.log(`Searching JapanCarGuide for: ${searchQuery}`);
+    const jcgResult = await fetchCarInfoFromJCG(searchQuery);
+    if (jcgResult) {
+      console.log(`Found car info on JapanCarGuide: ${jcgResult.manufacturer} ${jcgResult.name}`);
+      return jcgResult;
+    }
+  } catch (error) {
+    console.error('Error fetching from JapanCarGuide:', error);
+  }
+
+  // If no direct match from either source, try matching individual words in local database
   const queryWords = searchQuery.split(/\s+/);
   if (queryWords.length > 1) {
     for (const word of queryWords) {

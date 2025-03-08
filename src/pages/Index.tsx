@@ -30,10 +30,14 @@ const Index: React.FC = () => {
     setIsSearching(true);
     
     try {
-      // Simulate a brief loading state
-      await new Promise(resolve => setTimeout(resolve, 800));
+      // Simulate a brief loading state for better UX
+      const minLoadTime = new Promise(resolve => setTimeout(resolve, 800));
       
+      // Search both local database and Japan Car Guide
       const result = await findCarByModel(query);
+      
+      // Wait for minimum load time to complete
+      await minLoadTime;
       
       if (result) {
         setCarData(result);
@@ -45,7 +49,7 @@ const Index: React.FC = () => {
       } else {
         toast({
           title: "No results found",
-          description: "We couldn't find this car model in our database. Try another search term.",
+          description: "We couldn't find this car model. Try another search term like 'Skyline' or 'Silvia'.",
           variant: "destructive",
           duration: 5000,
         });

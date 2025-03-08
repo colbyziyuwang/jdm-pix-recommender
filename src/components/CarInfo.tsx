@@ -24,19 +24,25 @@ const CarInfo: React.FC<CarInfoProps> = ({ car }) => {
           className="relative overflow-hidden rounded-2xl h-[400px]"
         >
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
-          <motion.img 
-            src={car.imageUrl} 
-            alt={`${car.manufacturer} ${car.name}`}
-            className="w-full h-full object-cover object-center"
-            initial={{ scale: 1.1 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 1 }}
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.src = '/placeholder.svg'; // Fallback to placeholder if image fails to load
-              console.log(`Image failed to load: ${car.imageUrl}`);
-            }}
-          />
+          {car.imageUrl ? (
+            <motion.img 
+              src={car.imageUrl} 
+              alt={`${car.manufacturer} ${car.name}`}
+              className="w-full h-full object-cover object-center"
+              initial={{ scale: 1.1 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 1 }}
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = '/placeholder.svg'; // Fallback to placeholder if image fails to load
+                console.error(`Image failed to load: ${car.imageUrl}`);
+              }}
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-gray-100">
+              <p className="text-gray-500">No image available</p>
+            </div>
+          )}
           <div className="absolute bottom-0 left-0 p-6 z-20">
             <div className="inline-block px-3 py-1 bg-jdm-red text-white text-xs font-medium rounded-full mb-2">
               {car.manufacturer}
@@ -61,7 +67,7 @@ const CarInfo: React.FC<CarInfoProps> = ({ car }) => {
               </div>
               <div>
                 <p className="text-sm font-medium">Engine</p>
-                <p className="text-sm text-muted-foreground">{car.engineInfo}</p>
+                <p className="text-sm text-muted-foreground">{car.engineInfo || "Information not available"}</p>
               </div>
             </div>
             
@@ -71,7 +77,7 @@ const CarInfo: React.FC<CarInfoProps> = ({ car }) => {
               </div>
               <div>
                 <p className="text-sm font-medium">Power</p>
-                <p className="text-sm text-muted-foreground">{car.power}</p>
+                <p className="text-sm text-muted-foreground">{car.power || "Information not available"}</p>
               </div>
             </div>
             
@@ -81,7 +87,7 @@ const CarInfo: React.FC<CarInfoProps> = ({ car }) => {
               </div>
               <div>
                 <p className="text-sm font-medium">Top Speed</p>
-                <p className="text-sm text-muted-foreground">{car.topSpeed}</p>
+                <p className="text-sm text-muted-foreground">{car.topSpeed || "Information not available"}</p>
               </div>
             </div>
             
@@ -91,14 +97,14 @@ const CarInfo: React.FC<CarInfoProps> = ({ car }) => {
               </div>
               <div>
                 <p className="text-sm font-medium">Acceleration</p>
-                <p className="text-sm text-muted-foreground">{car.acceleration}</p>
+                <p className="text-sm text-muted-foreground">{car.acceleration || "Information not available"}</p>
               </div>
             </div>
           </div>
           
           <div className="mt-6">
             <h4 className="text-sm font-medium mb-2">Description</h4>
-            <p className="text-sm text-muted-foreground leading-relaxed">{car.description}</p>
+            <p className="text-sm text-muted-foreground leading-relaxed">{car.description || "No description available."}</p>
           </div>
         </motion.div>
       </div>
@@ -134,17 +140,19 @@ const CarInfo: React.FC<CarInfoProps> = ({ car }) => {
                     <span className="text-muted-foreground">{dealer.contact}</span>
                   </div>
                   
-                  <div className="flex items-center text-sm">
-                    <Globe size={14} className="mr-2 text-jdm-red" />
-                    <a 
-                      href={dealer.website} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-jdm-red hover:underline"
-                    >
-                      Visit website
-                    </a>
-                  </div>
+                  {dealer.website && (
+                    <div className="flex items-center text-sm">
+                      <Globe size={14} className="mr-2 text-jdm-red" />
+                      <a 
+                        href={dealer.website} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-jdm-red hover:underline"
+                      >
+                        Visit website
+                      </a>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             ))}
