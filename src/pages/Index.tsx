@@ -1,13 +1,12 @@
-
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Header from '../components/Header';
 import ImageUpload from '../components/ImageUpload';
 import CarInfo from '../components/CarInfo';
 import Footer from '../components/Footer';
-import { identifyCar } from '../utils/carData';
+import { identifyCar } from '../utils/carIdentification';
 import { useToast } from '../components/ui/use-toast';
-import { CarInfo as CarInfoType } from '../utils/carData';
+import { CarInfo as CarInfoType } from '../types/car';
 
 const Index: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CarInfo as CarInfoType } from '../utils/carData';
+import { CarInfo as CarInfoType } from '../types/car';
 import { Gauge, Car, Zap, Timer, MapPin, Phone, Globe } from 'lucide-react';
 
 interface CarInfoProps {
