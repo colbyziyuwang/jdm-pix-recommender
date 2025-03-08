@@ -4,7 +4,7 @@ import { useToast } from '../components/ui/use-toast';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import CarDataUploader from '../components/CarDataUploader';
+import CarDataUploader from '../components/car-uploader';
 import { motion } from 'framer-motion';
 import { ChevronLeft } from 'lucide-react';
 
