@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Button } from './ui/button';
 import { Badge } from './ui/badge';
-import { Calendar, Car, DollarSign, Image, MapPin, BarChart, ExternalLink } from 'lucide-react';
+import { Calendar, Car, DollarSign, Image, MapPin, BarChart } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { CarInfo as CarInfoType } from '../types/car';
 import CarSpecs from './car-details/CarSpecs';
@@ -16,12 +16,6 @@ interface CarInfoProps {
 
 const CarInfo: React.FC<CarInfoProps> = ({ car }) => {
   const [activeTab, setActiveTab] = useState("overview");
-  
-  const handleGoogleImageSearch = () => {
-    const searchQuery = `${car.manufacturer} ${car.name}`;
-    const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}&tbm=isch`;
-    window.open(searchUrl, '_blank', 'noopener,noreferrer');
-  };
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -38,14 +32,6 @@ const CarInfo: React.FC<CarInfoProps> = ({ car }) => {
               <Car size={64} className="text-gray-400" />
             </div>
           )}
-          <Button
-            variant="secondary"
-            size="sm"
-            className="absolute top-3 right-3 bg-white/90 text-black hover:bg-white"
-            onClick={handleGoogleImageSearch}
-          >
-            <Image size={16} className="mr-1" /> Search Images
-          </Button>
         </div>
         
         <Tabs defaultValue="overview" className="w-full">
@@ -62,7 +48,11 @@ const CarInfo: React.FC<CarInfoProps> = ({ car }) => {
                   variant="outline"
                   size="sm"
                   className="text-gray-700 hover:bg-gray-100"
-                  onClick={handleGoogleImageSearch}
+                  onClick={() => {
+                    const searchQuery = `${car.manufacturer} ${car.name}`;
+                    const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}&tbm=isch`;
+                    window.open(searchUrl, '_blank', 'noopener,noreferrer');
+                  }}
                 >
                   <Image size={16} className="mr-1" /> Search Google Images
                 </Button>
