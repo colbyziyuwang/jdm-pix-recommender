@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search } from 'lucide-react';
+import { Search, Image } from 'lucide-react';
 
 interface CarSearchProps {
   onSearch: (query: string) => void;
@@ -14,6 +14,12 @@ const CarSearch: React.FC<CarSearchProps> = ({ onSearch, isSearching }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSearch(searchTerm);
+  };
+
+  const handleGoogleImageSearch = () => {
+    if (!searchTerm.trim()) return;
+    const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchTerm)}&tbm=isch`;
+    window.open(searchUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -55,17 +61,28 @@ const CarSearch: React.FC<CarSearchProps> = ({ onSearch, isSearching }) => {
             className="w-full h-14 pl-5 pr-16 rounded-lg border border-gray-300 focus:border-jdm-red focus:ring-2 focus:ring-jdm-red/20 transition-all shadow-sm"
             disabled={isSearching}
           />
-          <button 
-            type="submit"
-            className="absolute right-2 top-2 h-10 w-10 flex items-center justify-center bg-jdm-red text-white rounded-md hover:bg-jdm-red/90 transition-colors"
-            disabled={isSearching}
-          >
-            {isSearching ? (
-              <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-            ) : (
-              <Search size={18} />
-            )}
-          </button>
+          <div className="absolute right-2 top-2 flex gap-1">
+            <button 
+              type="button"
+              onClick={handleGoogleImageSearch}
+              className="h-10 w-10 flex items-center justify-center bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors mr-1"
+              disabled={!searchTerm.trim() || isSearching}
+              title="Search Google Images"
+            >
+              <Image size={18} />
+            </button>
+            <button 
+              type="submit"
+              className="h-10 w-10 flex items-center justify-center bg-jdm-red text-white rounded-md hover:bg-jdm-red/90 transition-colors"
+              disabled={isSearching}
+            >
+              {isSearching ? (
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                <Search size={18} />
+              )}
+            </button>
+          </div>
         </div>
       </form>
       

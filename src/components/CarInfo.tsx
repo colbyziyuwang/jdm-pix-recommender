@@ -1,5 +1,8 @@
-
-import React from 'react';
+import React, { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
+import { Button } from './ui/button';
+import { Badge } from './ui/badge';
+import { Calendar, Car, DollarSign, Image, MapPin, BarChart, ExternalLink } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { CarInfo as CarInfoType } from '../types/car';
 import CarSpecs from './car-details/CarSpecs';
@@ -11,28 +14,76 @@ interface CarInfoProps {
 }
 
 const CarInfo: React.FC<CarInfoProps> = ({ car }) => {
+  const [activeTab, setActiveTab] = useState("overview");
+  
+  const handleGoogleImageSearch = () => {
+    const searchQuery = `${car.manufacturer} ${car.name}`;
+    const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}&tbm=isch`;
+    window.open(searchUrl, '_blank', 'noopener,noreferrer');
+  };
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      className="w-full max-w-4xl mx-auto my-12"
-    >
-      <CarSpecs car={car} />
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="md:col-span-2">
+        <div className="relative mb-6 rounded-lg overflow-hidden shadow-md">
+          {car.imageUrl ? (
+            <img 
+              src={car.imageUrl} 
+              alt={`${car.manufacturer} ${car.name}`}
+              className="w-full h-64 md:h-80 object-cover"
+            />
+          ) : (
+            <div className="w-full h-64 md:h-80 bg-gray-200 flex items-center justify-center">
+              <Car size={64} className="text-gray-400" />
+            </div>
+          )}
+          <Button
+            variant="secondary"
+            size="sm"
+            className="absolute top-3 right-3 bg-white/90 text-black hover:bg-white"
+            onClick={handleGoogleImageSearch}
+          >
+            <Image size={16} className="mr-1" /> Search Images
+          </Button>
+        </div>
+        
+        <Tabs defaultValue="overview" className="w-full">
+          <TabsList>
+            <TabsTrigger value="overview" onClick={() => setActiveTab("overview")}>Overview</TabsTrigger>
+            <TabsTrigger value="specs" onClick={() => setActiveTab("specs")}>Specs</TabsTrigger>
+            <TabsTrigger value="dealers" onClick={() => setActiveTab("dealers")}>Dealers</TabsTrigger>
+            <TabsTrigger value="chat" onClick={() => setActiveTab("chat")}>Chat</TabsTrigger>
+          </TabsList>
+          <TabsContent value="overview">
+            {/* Overview content goes here */}
+          </TabsContent>
+          <TabsContent value="specs">
+            <CarSpecs car={car} />
+          </TabsContent>
+          <TabsContent value="dealers">
+            <DealerLocator car={car} />
+          </TabsContent>
+          <TabsContent value="chat">
+            <CarLLMChat car={car} />
+          </TabsContent>
+        </Tabs>
+      </div>
       
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-        className="p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl mb-8"
-      >
-        <CarLLMChat car={car} />
-      </motion.div>
-      
-      {car.dealers && car.dealers.length > 0 && (
-        <DealerLocator car={car} />
-      )}
-    </motion.div>
+      <div className="md:col-span-1">
+        <div className="bg-white rounded-lg shadow-md p-4">
+          <h2 className="text-lg font-semibold">{car.name}</h2>
+          <p className="text-sm text-gray-500">{car.manufacturer}</p>
+          <div className="mt-4">
+            <Badge variant="outline" className="mr-2">{car.year}</Badge>
+            <Badge variant="outline" className="mr-2">{car.type}</Badge>
+            <Badge variant="outline">{car.price}</Badge>
+          </div>
+          <div className="mt-4">
+            <p className="text-sm">{car.description}</p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
