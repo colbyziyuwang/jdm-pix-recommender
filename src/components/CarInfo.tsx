@@ -57,25 +57,14 @@ const CarInfo: React.FC<CarInfoProps> = ({ car }) => {
           </TabsList>
           <TabsContent value="overview">
             <div className="bg-white p-4 rounded-lg shadow-sm">
-              <div className="relative rounded-lg overflow-hidden shadow-md mb-4">
-                {car.imageUrl ? (
-                  <img 
-                    src={car.imageUrl} 
-                    alt={`${car.manufacturer} ${car.name}`}
-                    className="w-full h-48 md:h-64 object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-48 md:h-64 bg-gray-200 flex items-center justify-center">
-                    <Car size={64} className="text-gray-400" />
-                  </div>
-                )}
+              <div className="mt-4">
                 <Button
-                  variant="secondary"
+                  variant="outline"
                   size="sm"
-                  className="absolute top-3 right-3 bg-white/90 text-black hover:bg-white"
+                  className="text-gray-700 hover:bg-gray-100"
                   onClick={handleGoogleImageSearch}
                 >
-                  <Image size={16} className="mr-1" /> Search Images
+                  <Image size={16} className="mr-1" /> Search Google Images
                 </Button>
               </div>
             </div>
