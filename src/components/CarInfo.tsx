@@ -97,9 +97,9 @@ const CarInfo: React.FC<CarInfoProps> = ({ car }) => {
           <h2 className="text-lg font-semibold">{car.name}</h2>
           <p className="text-sm text-gray-500">{car.manufacturer}</p>
           <div className="mt-4">
-            <Badge variant="outline" className="mr-2">{car.manufacturingYear}</Badge>
-            <Badge variant="outline" className="mr-2">{car.category}</Badge>
-            <Badge variant="outline">{car.estimatedPrice}</Badge>
+            <Badge variant="outline" className="mr-2">{car.yearRange}</Badge>
+            <Badge variant="outline" className="mr-2">{car.engineInfo}</Badge>
+            <Badge variant="outline">{car.power}</Badge>
           </div>
           <div className="mt-4">
             <p className="text-sm">{car.description}</p>
