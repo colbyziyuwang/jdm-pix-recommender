@@ -13,6 +13,7 @@ const defaultCarDatabase: CarInfo[] = [
     topSpeed: "315 km/h",
     acceleration: "0-100 km/h in 2.7s",
     description: "The Nissan GT-R (R35) is a high-performance sports car and grand tourer produced by Nissan. It was unveiled in 2007 and went on sale in Japan in December 2007, in the United States and Europe in July 2008, and in other regions in March 2009. The GT-R is Nissan's flagship performance vehicle, featuring a handbuilt twin-turbo V6 engine, all-wheel drive, and advanced electronics.",
+    imageUrl: "",
     dealers: [
       {
         name: "Tokyo Nissan Premium",
@@ -38,6 +39,7 @@ const defaultCarDatabase: CarInfo[] = [
     topSpeed: "285 km/h",
     acceleration: "0-100 km/h in 4.6s",
     description: "The Toyota Supra is a sports car and grand tourer manufactured by Toyota. The MK4 Supra, produced between 1993 and 2002, gained worldwide fame for its remarkable 2JZ-GTE twin-turbocharged inline-six engine, which was highly tunable and capable of handling immense power increases. The fourth-generation Supra became an iconic JDM legend, featured in movies, video games, and car enthusiast communities worldwide.",
+    imageUrl: "",
     dealers: [
       {
         name: "Classic JDM Imports",
@@ -57,6 +59,7 @@ const defaultCarDatabase: CarInfo[] = [
     topSpeed: "250 km/h",
     acceleration: "0-100 km/h in 5.2s",
     description: "The Mazda RX-7 is a front-engine, rear-wheel-drive, rotary engine-powered sports car that was manufactured and marketed by Mazda from 1978 to 2002. The third-generation FD model featured a sequential twin-turbocharger system, lightweight design, and a rotary engine, making it a unique and highly sought-after JDM classic. Its distinctive styling and exceptional handling earned it a dedicated following among enthusiasts.",
+    imageUrl: "",
     dealers: [
       {
         name: "Rotary Performance",
@@ -76,6 +79,7 @@ const defaultCarDatabase: CarInfo[] = [
     topSpeed: "255 km/h",
     acceleration: "0-100 km/h in 4.9s",
     description: "The Subaru Impreza WRX STI is a high-performance variant of the Subaru Impreza, manufactured by Subaru. The STI versions are characterized by their rally-inspired technology and powerful turbocharged engines. The car gained worldwide fame through its successes in the World Rally Championship and became an icon of JDM performance with its distinctive boxer engine rumble and all-wheel-drive system.",
+    imageUrl: "",
     dealers: [
       {
         name: "Rally Imports",
@@ -95,6 +99,7 @@ const defaultCarDatabase: CarInfo[] = [
     topSpeed: "242 km/h",
     acceleration: "0-100 km/h in 5.0s",
     description: "The Mitsubishi Lancer Evolution, also known as the Evo, is a sports sedan based on the Lancer that was manufactured by Mitsubishi Motors. There have been ten official versions to date, and the designation of each model is most commonly a Roman numeral. The Evolution was Mitsubishi's flagship sports model and competed directly against the Subaru Impreza WRX STI in the rally-inspired high-performance compact sedan segment.",
+    imageUrl: "",
     dealers: [
       {
         name: "Evolution Specialists",
@@ -114,6 +119,7 @@ const defaultCarDatabase: CarInfo[] = [
     topSpeed: "270 km/h",
     acceleration: "0-100 km/h in 5.6s",
     description: "The Honda NSX, marketed in North America as the Acura NSX, is a two-seat, mid-engine coupe sports car manufactured by Honda. The original NSX was developed by Honda to showcase the company's technological prowess and competed with high-end sports cars like Ferrari while offering reliability and everyday usability. Its lightweight aluminum body, VTEC engine technology, and handling were revolutionary for its time.",
+    imageUrl: "",
     dealers: [
       {
         name: "Honda Heritage Collection",
